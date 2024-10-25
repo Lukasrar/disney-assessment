@@ -1,13 +1,9 @@
-import Image from "next/image";
-import styles from "./page.module.css";
-import { Box, Text } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 
 export default function Home() {
   return (
-    <main className={styles.main}>
-      <Box>
-        <Text>home page</Text>
-      </Box>
-    </main>
+    <Flex p={"80px"} bg={"surface"} w={"100%"} h={"100vh"}>
+      teste
+    </Flex>
   );
 }
