@@ -1,15 +1,21 @@
 "use client";
 
-import { Flex } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import CharacterList from "./components/CharacterList";
 import useCharacterStore from "./store";
+import FeaturedCharacters from "./components/FeaturedCharacters";
 
 export default function Home() {
   const { characters } = useCharacterStore();
 
   return (
-    <Flex p={"80px"} bg={"surface"} w={"100%"} h={"100vh"}>
-      <CharacterList characters={characters} />
-    </Flex>
+    <Box w={"100%"}>
+      <Box bg={"surface"} p={"80px"}>
+        <CharacterList characters={characters} />
+      </Box>
+      <Box bg={"primary"} p={"80px"}>
+        <FeaturedCharacters />
+      </Box>
+    </Box>
   );
 }

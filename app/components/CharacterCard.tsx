@@ -15,7 +15,12 @@ interface CharacterListProps {
 
 const CharacterList: React.FC<CharacterListProps> = ({ character }) => {
   return (
-    <Box key={character._id} textAlign="center" height="400px">
+    <Box
+      key={character._id}
+      textAlign="center"
+      height="400px"
+      bg={"background"}
+    >
       <AspectRatio ratio={1} height="200px">
         <Image
           src={character.imageUrl}

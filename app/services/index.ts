@@ -11,4 +11,13 @@ export const Service = {
       throw error;
     }
   },
+  async getFeaturedCharacters(): Promise<CharacterResponse> {
+    try {
+      const { data } = await ClientApi.get("/featured-characters");
+
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  },
 };
