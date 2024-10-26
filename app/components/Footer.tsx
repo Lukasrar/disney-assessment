@@ -13,6 +13,7 @@ export default function Footer() {
         bg={"background"}
         gap={"10px"}
         flexDir={"column"}
+        padding={{ base: "20px", md: 0 }}
       >
         <LogoIcon />
 

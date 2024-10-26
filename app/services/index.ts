@@ -4,7 +4,7 @@ import { ClientApi } from "./Axios";
 export const Service = {
   async getCharacters(): Promise<CharacterResponse> {
     try {
-      const { data } = await ClientApi.get("/search");
+      const { data } = await ClientApi.get("/get-characters");
 
       return data;
     } catch (error) {
@@ -28,5 +28,9 @@ export const Service = {
     } catch (error) {
       throw error;
     }
+  },
+  async searchCharacters(name: string) {
+    const { data } = await ClientApi.get(`/search/${name}`);
+    return data;
   },
 };

@@ -1,8 +1,18 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Box, Image, Text, Button, VStack, SimpleGrid } from "@chakra-ui/react";
+import {
+  Box,
+  Image,
+  Text,
+  Button,
+  VStack,
+  Flex,
+  Skeleton,
+  SkeletonText,
+} from "@chakra-ui/react";
 import { Service } from "../../services";
 import { useParams } from "next/navigation";
+import FeaturedCharacters from "../../components/FeaturedCharacters";
 
 export default function CharacterDetail() {
   const { id } = useParams();
@@ -28,93 +38,152 @@ export default function CharacterDetail() {
   }, [id]);
 
   if (loading) {
-    return <Text>Loading character details...</Text>;
+    return (
+      <Flex w={"100%"} h={"100%"} flexDir={{ base: "column", md: "row" }}>
+        <Box
+          bg={"surface"}
+          p={{ base: "10px 20px 20px", md: "40px 80px 80px" }}
+          minH={{ base: "400px", md: "600px" }}
+          transition={"all 0.3s linear"}
+          w={"100%"}
+        >
+          <Flex gap={"20px"} w={"100%"}>
+            <Skeleton height="100%" width="40%" borderRadius="md" />
+            <Flex flexDir={"column"} gap={"24px"} flexGrow={1}>
+              <Skeleton height="48px" width="100%" borderRadius="md" />
+              <Skeleton height="16px" width="50%" borderRadius="md" />
+              <Box width="100%">
+                <Skeleton height="24px" width="100%" borderRadius="md" />
+                <SkeletonText mt="4" noOfLines={3} spacing="4" />
+              </Box>
+              <Box width="100%">
+                <Skeleton height="24px" width="100%" borderRadius="md" />
+                <SkeletonText mt="4" noOfLines={3} spacing="4" />
+              </Box>
+              <Skeleton height="40px" width="200px" borderRadius="md" />
+            </Flex>
+          </Flex>
+        </Box>
+        <Box bg={"primary"} p={"80px"}>
+          <Skeleton height="20px" width="100%" borderRadius="md" />
+        </Box>
+      </Flex>
+    );
   }
 
   if (!character) {
     return <Text>Character not found.</Text>;
   }
 
-  console.log(character);
-
   return (
-    <VStack spacing={4} align="center" p={5}>
-      <Image
-        src={character.imageUrl}
-        alt={character.name}
-        boxSize="200px"
-        objectFit="cover"
-        borderRadius="md"
-      />
-      <Text fontSize="2xl" fontWeight="bold">
-        {character.name}
-      </Text>
-      <Text fontSize="sm">
-        Last Updated: {new Date(character.updatedAt).toLocaleDateString()}
-      </Text>
-
-      <Box width="100%">
-        <Text fontWeight="semibold" mb={1}>
-          Featured Films:
-        </Text>
-        <SimpleGrid columns={{ base: 1, md: 2 }} spacing={2}>
-          {character.films.length > 0 ? (
-            character.films.map((film: string, index: number) => (
-              <Text key={index} fontSize="sm">
-                {film}
-              </Text>
-            ))
-          ) : (
-            <Text fontSize="sm">No featured films available</Text>
-          )}
-        </SimpleGrid>
-      </Box>
-
-      <Box width="100%">
-        <Text fontWeight="semibold" mb={1}>
-          Short Films:
-        </Text>
-        <SimpleGrid columns={{ base: 1, md: 2 }} spacing={2}>
-          {character.shortFilms.length > 0 ? (
-            character.shortFilms.map((shortFilm: string, index: number) => (
-              <Text key={index} fontSize="sm">
-                {shortFilm}
-              </Text>
-            ))
-          ) : (
-            <Text fontSize="sm">No short films available</Text>
-          )}
-        </SimpleGrid>
-      </Box>
-
-      <Box width="100%">
-        <Text fontWeight="semibold" mb={1}>
-          TV Shows:
-        </Text>
-        <SimpleGrid columns={{ base: 1, md: 2 }} spacing={2}>
-          {character.tvShows.length > 0 ? (
-            character.tvShows.map((tvShow: string, index: number) => (
-              <Text key={index} fontSize="sm">
-                {tvShow}
-              </Text>
-            ))
-          ) : (
-            <Text fontSize="sm">No TV shows available</Text>
-          )}
-        </SimpleGrid>
-      </Box>
-
-      <Button
-        as="a"
-        href={character.sourceUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        colorScheme="teal"
-        variant="solid"
-        mt={4}
+    <Box w={"100%"} h={"100%"}>
+      <Box
+        bg={"surface"}
+        p={{ base: "10px 20px 20px", md: "40px 80px 80px" }}
+        transition={"all 0.3s linear"}
       >
-        Explore More Character Details
-      </Button>
-    </VStack>
+        <Flex gap={"20px"} flexDir={{ base: "column", md: "row" }}>
+          <Image
+            src={character.imageUrl}
+            alt={character.name}
+            boxSize="40%"
+            objectFit="cover"
+            borderRadius="md"
+          />
+
+          <Flex flexDir={"column"} gap={"24px"}>
+            <Text fontSize="40px" fontWeight={600} lineHeight={"48px"}>
+              {character.name}
+            </Text>
+            <Text fontSize="12px" fontWeight={400} lineHeight={"16px"}>
+              Last Updated: {new Date(character.updatedAt).toLocaleDateString()}
+            </Text>
+
+            <Box width="100%">
+              <Text fontSize="18px" fontWeight={700} lineHeight={"24px"}>
+                Featured Films:
+              </Text>
+              {character.films?.length > 0 ? (
+                <ul style={{ paddingLeft: "25px" }}>
+                  {character.films.map((film: string, index: number) => (
+                    <li key={index}>
+                      <Text
+                        fontSize="15px"
+                        fontWeight={600}
+                        lineHeight={"24px"}
+                      >
+                        {film}
+                      </Text>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <Text fontSize="sm">No featured films available</Text>
+              )}
+            </Box>
+
+            <Box width="100%">
+              <Text fontSize="18px" fontWeight={700} lineHeight={"24px"}>
+                Short Films:
+              </Text>
+              {character.shortFilms?.length > 0 ? (
+                <ul style={{ paddingLeft: "25px" }}>
+                  {character.shortFilms.map((film: string, index: number) => (
+                    <li key={index}>
+                      <Text
+                        fontSize="15px"
+                        fontWeight={600}
+                        lineHeight={"24px"}
+                      >
+                        {film}
+                      </Text>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <Text fontSize="sm">No featured short films available</Text>
+              )}
+            </Box>
+
+            <Box width="100%">
+              <Text fontSize="18px" fontWeight={700} lineHeight={"24px"}>
+                TV Shows:
+              </Text>
+              {character.tvShows?.length > 0 ? (
+                <ul style={{ paddingLeft: "25px" }}>
+                  {character.tvShows.map((film: string, index: number) => (
+                    <li key={index}>
+                      <Text
+                        fontSize="15px"
+                        fontWeight={600}
+                        lineHeight={"24px"}
+                      >
+                        {film}
+                      </Text>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <Text fontSize="sm">No TV shows available</Text>
+              )}
+            </Box>
+
+            <Button
+              as="a"
+              href={character.sourceUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              bg={"primary"}
+              color={"surface"}
+            >
+              Explore More Character Details
+            </Button>
+          </Flex>
+        </Flex>
+      </Box>
+      <Box bg={"primary"} p={{ base: "20px", md: "80px" }}>
+        <FeaturedCharacters />
+      </Box>
+    </Box>
   );
 }

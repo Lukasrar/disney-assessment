@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Image,
@@ -6,15 +6,21 @@ import {
   Button,
   AspectRatio,
   Tooltip,
-  Link,
+  Link as ChakraLink,
+  Skeleton,
+  Flex,
 } from "@chakra-ui/react";
+import NextLink from "next/link";
+
 import { Character } from "../interface/character";
 
 interface CharacterCardProps {
   character: Character;
 }
 
-const CharacterCardProps: React.FC<CharacterCardProps> = ({ character }) => {
+const CharacterCard: React.FC<CharacterCardProps> = ({ character }) => {
+  const [isLoading, setIsLoading] = useState(true);
+
   return (
     <Box
       key={character._id}
@@ -22,39 +28,75 @@ const CharacterCardProps: React.FC<CharacterCardProps> = ({ character }) => {
       height="400px"
       bg={"background"}
     >
-      <AspectRatio ratio={1} height="200px">
-        <Image
-          src={character.imageUrl}
-          alt={character.name}
-          objectFit="cover"
-        />
+      <AspectRatio ratio={1} height="200px" position={"relative"}>
+        <>
+          {isLoading && (
+            <Skeleton
+              height="100%"
+              w={"100%"}
+              position={"absolute"}
+              borderRadius="md"
+              bg={"gray.200"}
+            />
+          )}
+          <Image
+            src={character.imageUrl}
+            alt={character.name}
+            objectFit="cover"
+            onLoad={() => setIsLoading(false)}
+            onError={() => setIsLoading(false)}
+          />
+        </>
       </AspectRatio>
-      <Tooltip label={character.name} placement="top" hasArrow>
-        <Text fontWeight="bold" mt={2} isTruncated>
-          {character.name}
-        </Text>
-      </Tooltip>
 
-      <Box height="100px" overflow="hidden" textAlign="left" mt={2}>
-        <Text fontWeight="semibold">Featured Films:</Text>
-        {character.films.length > 0 ? (
-          character.films.slice(0, 3).map((film, index) => (
-            <Text key={index} fontSize="sm">
-              {film}
+      <Flex flexDir={"column"} w={"100%"} h={"100%"} p={"10px"}>
+        <Tooltip label={character.name} placement="top" hasArrow>
+          <Text
+            fontSize={"18px"}
+            fontWeight={700}
+            lineHeight={"22px"}
+            isTruncated
+            color={"text"}
+          >
+            {character.name}
+          </Text>
+        </Tooltip>
+
+        <Box height="100px" overflow="hidden" justifyContent={"center"}>
+          <Text fontWeight={600} fontSize={"15px"} lineHeight={"16px"}>
+            Featured <b>Films</b>
+          </Text>
+          {character.films.length > 0 ? (
+            <Text fontSize="12px" fontWeight={400} lineHeight={"16px"}>
+              {character.films.slice(0, 3).map((film, index) => (
+                <span key={index}>
+                  "{film}"
+                  {index < character.films.slice(0, 3).length - 1 && ", "}{" "}
+                </span>
+              ))}
             </Text>
-          ))
-        ) : (
-          <Text fontSize="sm">No films available</Text>
-        )}
-      </Box>
+          ) : (
+            <Text fontSize="sm">No films available</Text>
+          )}
+        </Box>
 
-      <Link href={`/detail/${character._id}`}>
-        <Button mt={4} colorScheme="teal" variant="outline" width="100%">
-          View Profile
-        </Button>
-      </Link>
+        <NextLink href={`/detail/${character._id}`} passHref>
+          <ChakraLink>
+            <Button
+              variant="ghost"
+              width="100%"
+              textDecor={"underline"}
+              color={"text"}
+              fontSize={"12px"}
+              fontWeight={900}
+            >
+              VIEW PROFILE
+            </Button>
+          </ChakraLink>
+        </NextLink>
+      </Flex>
     </Box>
   );
 };
 
-export default CharacterCardProps;
+export default CharacterCard;
