@@ -64,9 +64,6 @@ export default function CharacterDetail() {
             </Flex>
           </Flex>
         </Box>
-        <Box bg={"primary"} p={"80px"}>
-          <Skeleton height="20px" width="100%" borderRadius="md" />
-        </Box>
       </Flex>
     );
   }
