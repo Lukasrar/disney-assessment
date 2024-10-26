@@ -6,14 +6,15 @@ import {
   Button,
   AspectRatio,
   Tooltip,
+  Link,
 } from "@chakra-ui/react";
 import { Character } from "../interface/character";
 
-interface CharacterListProps {
+interface CharacterCardProps {
   character: Character;
 }
 
-const CharacterList: React.FC<CharacterListProps> = ({ character }) => {
+const CharacterCardProps: React.FC<CharacterCardProps> = ({ character }) => {
   return (
     <Box
       key={character._id}
@@ -47,11 +48,13 @@ const CharacterList: React.FC<CharacterListProps> = ({ character }) => {
         )}
       </Box>
 
-      <Button mt={4} colorScheme="teal" variant="outline" width="100%">
-        View Profile
-      </Button>
+      <Link href={`/detail/${character._id}`}>
+        <Button mt={4} colorScheme="teal" variant="outline" width="100%">
+          View Profile
+        </Button>
+      </Link>
     </Box>
   );
 };
 
-export default CharacterList;
+export default CharacterCardProps;

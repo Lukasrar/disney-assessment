@@ -20,4 +20,13 @@ export const Service = {
       throw error;
     }
   },
+  async getCharacterDetails(characterId: string): Promise<CharacterResponse> {
+    try {
+      const { data } = await ClientApi.get(`/character-detail/${characterId}`);
+
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  },
 };

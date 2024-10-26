@@ -8,6 +8,7 @@ const nextConfig = {
 
     return config;
   },
+  reactStrictMode: false,
   env: {
     API_SSR_PATH: process.env.API_SSR_PATH,
   },
