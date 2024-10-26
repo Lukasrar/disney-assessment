@@ -8,6 +8,9 @@ const nextConfig = {
 
     return config;
   },
+  env: {
+    API_SSR_PATH: process.env.API_SSR_PATH,
+  },
 };
 
 export default nextConfig;
